@@ -21,7 +21,7 @@ export default function SlideView({ steps }) {
                         <div className="slide-card">
                             <div className="slide-image">
                                 {step.image_url ? (
-                                    <img src={`http://localhost:8000${step.image_url}`} alt={`Step ${index + 1}`} />
+                                    <img src={step.image_url} alt={`Step ${index + 1}`} />
                                 ) : (
                                     <div className="no-image">No Image</div>
                                 )}
