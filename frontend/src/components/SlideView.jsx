@@ -6,6 +6,10 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 export default function SlideView({ steps }) {
+    if (!steps || steps.length === 0) {
+        return <div className="no-steps">手順データがありません。</div>;
+    }
+
     return (
         <div className="slide-view">
             <Swiper
@@ -21,7 +25,14 @@ export default function SlideView({ steps }) {
                         <div className="slide-card">
                             <div className="slide-image">
                                 {step.image_url ? (
-                                    <img src={step.image_url} alt={`Step ${index + 1}`} />
+                                    <img 
+                                        src={step.image_url} 
+                                        alt={`Step ${index + 1}`}
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = "https://placehold.co/600x400?text=No+Image";
+                                        }}
+                                    />
                                 ) : (
                                     <div className="no-image">No Image</div>
                                 )}

@@ -34,6 +34,7 @@ function App() {
           const res = await axios.get(`${API_BASE}/status/${jobId}`);
           setProgress(res.data.progress);
           if (res.data.status === 'completed') {
+            console.log("Job Result:", res.data.result); // Debug output
             setResult(res.data.result);
             setStatus('result');
             clearInterval(interval);

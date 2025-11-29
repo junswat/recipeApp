@@ -53,6 +53,9 @@ def process_video(job_id: str, url: str):
         # In the future, we could use YouTube Data API to get thumbnails at timestamps
         # or just show the main thumbnail
         main_thumbnail = metadata.get("thumbnail")
+        if not main_thumbnail:
+            # Fallback image if no thumbnail is found
+            main_thumbnail = "https://placehold.co/600x400?text=No+Image"
         
         for step in recipe_data.get("steps", []):
             # Instead of extracting frames, we use the main thumbnail
