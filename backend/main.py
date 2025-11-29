@@ -30,9 +30,9 @@ jobs = {}
 class GenerateRequest(BaseModel):
     url: str
 
-from services.downloader import download_video
-from services.ai import analyze_recipe
-from services.extractor import extract_frame
+from backend.services.downloader import download_video
+from backend.services.ai import analyze_recipe
+from backend.services.extractor import extract_frame
 
 def process_video(job_id: str, url: str):
     try:
