@@ -6,10 +6,11 @@ client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 def analyze_recipe(video_metadata: dict):
     prompt = f"""
-    Analyze the following cooking video metadata and description to extract recipe details.
+    Analyze the following cooking video metadata, description, and subtitles to extract recipe details.
     
     Title: {video_metadata['title']}
     Description: {video_metadata['description']}
+    Subtitles: {video_metadata.get('subtitles', 'Not available')}
     
     Please output a JSON object with the following structure:
     {{
@@ -25,7 +26,7 @@ def analyze_recipe(video_metadata: dict):
         ]
     }}
     
-    For timestamps, estimate based on the description if available, otherwise leave as null or 0.
+    For timestamps, use the timestamps provided in the subtitles if available.
     """
     
     response = client.chat.completions.create(

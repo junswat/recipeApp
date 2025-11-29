@@ -46,25 +46,23 @@ def process_video(job_id: str, url: str):
         jobs[job_id]["progress"] = "Analyzing recipe..."
         recipe_data = analyze_recipe(metadata)
         
-        # 3. Extract Images
-        jobs[job_id]["progress"] = "Extracting images..."
-        # Create images directory for this job
-        job_dir = f"static/{job_id}"
-        os.makedirs(job_dir, exist_ok=True)
+        # 3. Use Thumbnail as Image (Since we don't download video anymore)
+        jobs[job_id]["progress"] = "Finalizing..."
         
-        for i, step in enumerate(recipe_data.get("steps", [])):
-            timestamp = step.get("timestamp")
-            if timestamp is not None:
-                image_filename = f"step_{i+1}.jpg"
-                image_path = f"{job_dir}/{image_filename}"
-                if extract_frame(metadata["file_path"], timestamp, image_path):
-                    step["image_url"] = f"/static/{job_id}/{image_filename}"
+        # Use the main video thumbnail for all steps for now
+        # In the future, we could use YouTube Data API to get thumbnails at timestamps
+        # or just show the main thumbnail
+        main_thumbnail = metadata.get("thumbnail")
+        
+        for step in recipe_data.get("steps", []):
+            # Instead of extracting frames, we use the main thumbnail
+            # Or we could leave it empty to show no image
+            step["image_url"] = main_thumbnail
         
         jobs[job_id]["status"] = "completed"
         jobs[job_id]["result"] = recipe_data
         
-        # Cleanup video file (optional, maybe keep for debugging for now)
-        # os.remove(metadata["file_path"])
+        # Cleanup not needed as we don't download video file
         
     except Exception as e:
         print(f"Job failed: {e}")
